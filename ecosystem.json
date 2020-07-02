@@ -1,0 +1,28 @@
+{
+    "apps":[
+        {
+            "name": "blog", 
+            "script": "app.js", 
+            "env": {
+                "COMMON_VARIABLE": "true"
+            },
+            "env_production": {
+                "NODE_ENV": "production" 
+            }
+        }
+    ],
+    "deploy": {
+        "production": {
+            "user":"root",
+            "host": ["103.40.247.27"],
+            "port": "22",
+            "ref": "origin/master",
+            "repo": "git@github.com:XUSAMXU/myblog.git",
+            "path": "/home/www/blog/production",
+            "ssh_options": "StrictHostKeyChecking=no",
+            "env": {
+                "NODE_ENV": "production"
+            }
+        }
+    }
+}
