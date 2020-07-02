@@ -18,7 +18,7 @@
             "port": "22",
             "ref": "origin/master",
             "repo": "git@github.com:XUSAMXU/myblog.git",
-            "path": "/home/www/blog/production",
+            "path": "/home/www/myblog/production",
             "ssh_options": "StrictHostKeyChecking=no",
             "env": {
                 "NODE_ENV": "production"
