@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>welcome</title>
+		<script src="../static/jquery-1.12.4.min.js"></script>
+		<style type="text/css">
+			.wechat {
+				width: 50%;
+			}
+		</style>
+	</head>
+	<body>
+
+		<p>
+			当前微信号：<span class="info">
+				<%= files %></span>
+		</p>
+		<p class="wechat">
+			<label for="wx">修改微信号 ： </label>
+			<input type="text" name="wx" id="wx" />
+		</p>
+		<p class="wechat">
+			*多个微信号用英文 "," 隔开*
+			<input type="hidden" name="token" id="token" value="" />
+		</p>
+		<button type="submit" onclick="post()">提交</button>
+
+
+		<script type="text/javascript">
+			var wxnumber = "<%= files%>"
+			var token = getCookie('token')
+			document.getElementById('wx').value = wxnumber
+			document.getElementById('token').value = token
+
+			function post() {
+				var wx = document.getElementById('wx').value
+				console.log(wx)
+				if (wx === ' ') {
+					alert('微信号不能为空')
+					return false
+				} else if (wx.indexOf('，') > -1) {
+					alert('请用英文","隔开')
+					return false
+				} else if (wx === $('.info').text().trim()) {
+					alert('没有变化')
+					return false
+				} else {
+					$.ajax({
+						url: '/api/userTest',
+						type: 'post',
+						data: {
+							wx: wx
+						},
+						beforeSend: function(xhr) {
+							xhr.setRequestHeader("authorization", 'Bearer ' + getCookie('token'));
+						},
+						success: function(msg) {
+							$('.info').text(document.getElementById('wx').value)
+							alert('修改成功')
+						},
+						error: function(err) {
+							alert('登录过期， 请重新登录')
+							window.location.href = '../login'
+						}
+					})
+
+				}
+
+			}
+
+			function getCookie(cname) {
+				var name = cname + "=";
+				var ca = document.cookie.split(';');
+				for (var i = 0; i < ca.length; i++) {
+					var c = ca[i].trim();
+					if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+				}
+				return "";
+			}
+		</script>
+ 
+	</body>
+</html>
