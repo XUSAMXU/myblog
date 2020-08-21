@@ -38,6 +38,7 @@ router.get('/login' , async ctx => {
 	await ctx.render('login',{title})
 })
 router.post('/login' , async (ctx,next) => {
+	ctx.set('Access-Control-Allow-Credentials', 'true')
 	const user = ctx.request.body
 	console.log(user)
 	if(user && user.user && user.pwd === secret) {
@@ -45,7 +46,7 @@ router.post('/login' , async (ctx,next) => {
 		let { username } =user
 		const token = sign({ username },secret, { expiresIn: '1h'})
 		ctx.cookies.set('token', token , {
-             domain:'localhost',
+             domain:'103.40.247.27',
              path:'/api/user',   //cookie写入的路径
              maxAge:1000*60*60*1,
              expires:'48h',
